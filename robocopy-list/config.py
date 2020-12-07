@@ -27,9 +27,10 @@ def getFileList():
     file = open(fileListFileName)
     lines = file.read().splitlines()
     lines = [x for x in lines if str(x) != "nan"]
+    lines = [x[1:] if x[0] in r"\/" else x for x in lines]
     srcFiles = [os.path.join(srcPath, x) for x in lines]
     srcFiles = [os.path.normpath(x) for x in srcFiles]
     desFiles = [os.path.join(desPath, x) for x in lines]
     desFiles = [os.path.normpath(x) for x in desFiles]
-    files = list(zip(srcFiles, desFiles))
+    files = list(zip(srcFiles, desFiles, lines))
     return files

@@ -17,14 +17,6 @@ def copy(src, des):
     mtime = time.ctime(os.path.getmtime(src))
     return mtime
 
-# def copylist(filelist, desPath):
-#     for file in filelist:
-#         fileName = os.path.basename(file)
-#         srcFile = os.path.normpath(file)
-#         desFile = os.path.join(desPath, fileName)
-#         desFile = os.path.normpath(desFile)
-#         copy(srcFile, desFile)
-
 def pathFilter(path):
     src = path[0].replace(r"\src\main\webapp", "");
     des = path[1].replace(r"\src\main\webapp", "");
@@ -36,18 +28,14 @@ def pathFilter(path):
         src = os.path.splitext(src)[0] + ".class"
     if os.path.splitext(des)[1] == ".java":
         des = os.path.splitext(des)[0] + ".class"
-    return (src, des)
+    return (src, des, path[2])
 
 items = config.getFileList()
 items = [pathFilter(x) for x in items]
 for item in items:
     result = copy(item[0], item[1])
     if result == ERR_SRC_NOT_EXSIST:
-        print("원본 파일을 찾을 수 없습니다.")
+        print(f"NO FILE : {item[0]}")
     else:
-        print(f"OKCOPY [{result}] {item[0]}")
+        print(f"OKCOPY [{result}] {item[2]}")
 input("")
-# copylist(items[0], items[1])
-# 선택 파일명
-# 실제 복사할 파일명
-# 붙여 넣을 파일명
